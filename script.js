@@ -4,9 +4,9 @@ const $ = (s) => document.querySelector(s);
 /* ---------- data ---------- */
 const STOCKS = [
   { s: "DPRP",   n: "Dangote Petroleum Refinery and Petrochemicals", p: 4.74,  c: 0,     sh: 0 },
-  { s: "MTNGH",  n: "MTN Ghana Limited",           p: 6.55,  c: 0,     sh: 600 },
-  { s: "CAL",    n: "CAL Bank Limited",            p: 0.73,  c: 0,     sh: 1341 },
-  { s: "KASA",   n: "Kasapreko Plc",               p: 1.89,  c: 0,     sh: 5752 },
+  { s: "MTNGH",  n: "MTN Ghana Limited",           p: 6.55,  c: 0,     sh: 100 },
+  { s: "CAL",    n: "CAL Bank Limited",            p: 0.73,  c: 0,     sh: 300 },
+  { s: "KASA",   n: "Kasapreko Plc",               p: 1.89,  c: 0,     sh: 250 },
   { s: "CPC",    n: "Cocoa Processing Company",    p: 0.38,  c: 8.57,  sh: 0 },
   { s: "GGBL",   n: "Guinness Ghana Breweries Ltd", p: 10.70, c: 0,    sh: 0 },
   { s: "RBGH",   n: "Republic Bank Ghana",         p: 4.09,  c: 0,     sh: 0 },
@@ -26,7 +26,7 @@ const POSTS = [
   ["IC Stock Watch: Week of 21st September 2026", "September 22, 2026"],
   ["Why money decisions feel emotional even when we know better", "September 17, 2026"],
 ];
-const CASH = { "TradeLive Portfolio": 0.08, "IC Liquidity Fund": 0.67 };
+const CASH = { "TradeLive Portfolio": 150, "IC Liquidity Fund": 250 };
 const RANGES = { "1W": 7, "1M": 22, "3M": 30, "6M": 40, YTD: 45, "1Y": 60 };
 
 /* ---------- state ---------- */
