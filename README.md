@@ -4,7 +4,7 @@ This repository contains a static demo site. It uses sample portfolio data and d
 
 ## GitHub Pages
 
-The workflow in `.github/workflows/pages.yml` deploys the site from the `main` branch. Enable GitHub Pages for this repository and allow the workflow to deploy. After a successful deployment, the site will be available at:
+The workflow in `.github/workflows/pages.yml` enables and deploys the site from the `main` branch. After a successful deployment, the site will be available at:
 
 `https://joesef387.github.io/IC-Wealth/`
 
