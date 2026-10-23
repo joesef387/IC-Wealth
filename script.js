@@ -28,6 +28,33 @@ const POSTS = [
 ];
 const CASH = { "TradeLive Portfolio": 0.08, "IC Liquidity Fund": 0.67 };
 const RANGES = { "1W": 7, "1M": 22, "3M": 30, "6M": 40, YTD: 45, "1Y": 60 };
+const ORDER_HISTORY = {
+  CAL: [
+    { id: "cal-1", side: "Sell", shares: 1, date: "16th October 2026", status: "Cancelled" },
+    { id: "cal-2", side: "Buy", shares: 16, date: "13th October 2026", status: "Complete" },
+    { id: "cal-3", side: "Buy", shares: 35, date: "6th October 2026", status: "Complete" },
+    { id: "cal-4", side: "Buy", shares: 139, date: "24th September 2026", status: "Complete" },
+    { id: "cal-5", side: "Buy", shares: 142, date: "22nd September 2026", status: "Cancelled" },
+    { id: "cal-6", side: "Buy", shares: 100, date: "9th September 2026", status: "Complete" },
+    { id: "cal-7", side: "Buy", shares: 1473, date: "7th September 2026", status: "Cancelled" },
+    { id: "cal-8", side: "Buy", shares: 1270, date: "29th July 2026", status: "Complete" },
+    { id: "cal-9", side: "Buy", shares: 800, date: "27th July 2026", status: "Complete" },
+    { id: "cal-10", side: "Buy", shares: 10, date: "31st May 2026", status: "Cancelled" },
+    { id: "cal-11", side: "Sell", shares: 1019, date: "20th May 2026", status: "Complete" },
+    { id: "cal-12", side: "Buy", shares: 1000, date: "12th May 2026", status: "Cancelled" },
+  ],
+  MTNGH: [
+    { id: "mtn-1", side: "Buy", shares: 14, date: "8th October 2026", status: "Complete" },
+    { id: "mtn-2", side: "Buy", shares: 15, date: "12th October 2026", status: "Cancelled" },
+    { id: "mtn-3", side: "Buy", shares: 8, date: "22nd September 2026", status: "Cancelled" },
+    { id: "mtn-4", side: "Buy", shares: 586, date: "14th August 2026", status: "Complete" },
+  ],
+  KASA: [
+    { id: "kasa-1", side: "Buy", shares: 20, date: "6th October 2026", status: "Complete" },
+    { id: "kasa-2", side: "Buy", shares: 12, date: "15th September 2026", status: "Complete" },
+    { id: "kasa-3", side: "Buy", shares: 5720, date: "14th August 2026", status: "Complete" },
+  ],
+};
 
 /* ---------- state ---------- */
 const S = {
@@ -80,6 +107,7 @@ const stock = (sym) => STOCKS.find((x) => x.s === sym);
 const held = () => STOCKS.filter((x) => x.sh > 0);
 const totalShares = () => held().reduce((total, x) => total + x.sh, 0);
 const portfolioValue = () => held().reduce((a, x) => a + x.sh * x.p, 0);
+const stockOrders = (symbol) => ORDER_HISTORY[symbol] || [];
 const chgClass = (c) => (c > 0 ? "u" : c < 0 ? "d" : "");
 const initials = (s) => s.slice(0, 3);
 const STOCK_LOGOS = {
@@ -323,6 +351,7 @@ V.ins = () => `
 V.stock = () => {
   const x = stock(S.sym), pts = series(S.sym, S.range), value = x.sh * x.p;
   const hi = Math.max(...pts).toFixed(2), lo = Math.min(...pts).toFixed(2);
+  const orderHistory = stockOrders(x.s);
   return `
   ${subhdr(x.s)}
   <div class="detail-head">
@@ -341,7 +370,21 @@ V.stock = () => {
       <div class="row" style="padding:8px 0"><span class="mute">Current market value</span><span>${money(value)}</span></div></div>
     <div class="card pad"><h3 style="font-weight:500;font-size:20px;margin-bottom:8px">Today's Statistics</h3>
       <div class="row" style="padding:8px 0"><span class="mute">Open</span><span>${x.p.toFixed(2)}</span><span class="mute">High</span><span>${hi}</span><span class="mute">Low</span><span>${lo}</span></div></div>`
-  : `<p class="pad mute">${S.tab === "Order History" ? "No orders yet for this stock." : "No dividends paid for this stock yet."}</p>`}
+  : S.tab === "Order History"
+    ? orderHistory.length
+      ? `<p class="transaction-demo-note">Sample demo order history · completed orders reconcile to current holdings</p>
+        <div class="order-history">${orderHistory.map((order) => {
+          const title = `${order.side} ${order.shares.toLocaleString()} ${x.s}`;
+          const detail = `${order.side === "Buy" ? "Purchase" : "Sale"} of ${order.shares.toLocaleString()} ${x.s} shares${order.status === "Cancelled" ? " was cancelled" : ""}.`;
+          return `<button class="transaction" data-a="tx-detail" data-k="${order.id}" aria-expanded="${S.expandedTransaction === order.id}">
+            <span class="transaction-info"><b>${title}</b><small class="mute">${order.date}</small></span>
+            <span class="transaction-status ${order.status.toLowerCase()}">${order.status}</span>
+            <span class="transaction-chevron" aria-hidden="true">${S.expandedTransaction === order.id ? "⌃" : "⌄"}</span>
+            ${S.expandedTransaction === order.id ? `<span class="transaction-detail">${detail} <small>Sample demo history</small></span>` : ""}
+          </button>`;
+        }).join("")}</div>`
+      : '<p class="pad mute">No orders yet for this stock.</p>'
+    : '<p class="pad mute">No dividends paid for this stock yet.</p>'}
   <div class="trade-bar"><button class="btn" data-a="trade" data-k="sell">Sell</button><button class="btn navy" data-a="trade" data-k="buy">Buy</button></div>`;
 };
 
