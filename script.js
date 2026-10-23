@@ -4,9 +4,9 @@ const $ = (s) => document.querySelector(s);
 /* ---------- data ---------- */
 const STOCKS = [
   { s: "DPRP",   n: "Dangote Petroleum Refinery and Petrochemicals", p: 4.74,  c: 0,     sh: 0 },
-  { s: "MTNGH",  n: "MTN Ghana Limited",           p: 6.55,  c: 0,     sh: 100 },
-  { s: "CAL",    n: "CAL Bank Limited",            p: 0.73,  c: 0,     sh: 300 },
-  { s: "KASA",   n: "Kasapreko Plc",               p: 1.89,  c: 0,     sh: 250 },
+  { s: "MTNGH",  n: "MTN Ghana Limited",           p: 6.55,  c: 0,     sh: 600 },
+  { s: "CAL",    n: "CAL Bank Limited",            p: 0.73,  c: 0,     sh: 1341 },
+  { s: "KASA",   n: "Kasapreko Plc",               p: 1.89,  c: 0,     sh: 5752 },
   { s: "CPC",    n: "Cocoa Processing Company",    p: 0.38,  c: 8.57,  sh: 0 },
   { s: "GGBL",   n: "Guinness Ghana Breweries Ltd", p: 10.70, c: 0,    sh: 0 },
   { s: "RBGH",   n: "Republic Bank Ghana",         p: 4.09,  c: 0,     sh: 0 },
@@ -26,7 +26,7 @@ const POSTS = [
   ["IC Stock Watch: Week of 21st September 2026", "September 22, 2026"],
   ["Why money decisions feel emotional even when we know better", "September 17, 2026"],
 ];
-const CASH = { "TradeLive Portfolio": 150, "IC Liquidity Fund": 250 };
+const CASH = { "TradeLive Portfolio": 0.08, "IC Liquidity Fund": 0.67 };
 const RANGES = { "1W": 7, "1M": 22, "3M": 30, "6M": 40, YTD: 45, "1Y": 60 };
 
 /* ---------- state ---------- */
@@ -70,8 +70,8 @@ const S = {
   ],
 };
 const TABS = ["dash", "lf", "tl", "ins"];
-const ACCOUNT_NAME = "Demo User";
-const ACCOUNT_NUMBER = "DEMO-ACCOUNT";
+const ACCOUNT_NAME = "ALBERTA SELASIE AGBO";
+const ACCOUNT_NUMBER = "2611521148";
 
 /* ---------- helpers ---------- */
 const money = (v, d = 2) =>
@@ -147,7 +147,7 @@ const drawer = () => `
     <button class="drawer-scrim" data-a="drawer-close" aria-label="Close menu"></button>
     <aside class="drawer" aria-label="Account menu">
       <div class="drawer-profile">
-        <div class="avatar">DU</div>
+        <div class="avatar">AS</div>
         <div><b>${ACCOUNT_NAME} <span class="verified" aria-label="Verified">✓</span></b><span>${ACCOUNT_NUMBER}</span></div>
       </div>
       <div class="drawer-main">
@@ -212,7 +212,7 @@ V.login = () => `
       <label for="u">${S.mode === "Email" ? "Email Address" : "Phone Number"}</label>
       <div class="login-input-wrap">
         <svg viewBox="0 0 24 24" aria-hidden="true">${S.mode === "Email" ? '<path d="M3 6h18v12H3zM3 7l9 7 9-7"/>' : '<path d="M6 3h12v18H6zM9 7h6M9 11h6M9 15h3"/>'}</svg>
-        <input id="u" type="${S.mode === "Email" ? "email" : "tel"}" value="${S.mode === "Email" ? "demo@example.com" : ""}" placeholder="${S.mode === "Email" ? "you@example.com" : "024 000 0000"}">
+        <input id="u" type="${S.mode === "Email" ? "email" : "tel"}" value="${S.mode === "Email" ? "agboalberta64@gmail.com" : ""}" placeholder="${S.mode === "Email" ? "you@example.com" : "024 000 0000"}">
       </div>
       <label for="pw">Password</label>
       <div class="login-input-wrap">
@@ -237,14 +237,14 @@ V.dash = () => {
     <p class="big" style="text-align:center">GHS ${money(tl + lf)} ${eyeBtn()}</p>
   </div>
   <div class="card">
-    <button class="acc" data-a="open" data-k="tl"><span class="portfolio-title"><svg class="portfolio-mark" viewBox="0 0 24 24" aria-hidden="true">${ICON.tl}</svg><span><small>DEMO-TRADE</small><b>TradeLive Portfolio</b></span></span><span style="text-align:right"><small>Total Value</small><b>GHS ${money(tl)}</b></span></button>
+    <button class="acc" data-a="open" data-k="tl"><span class="portfolio-title"><svg class="portfolio-mark" viewBox="0 0 24 24" aria-hidden="true">${ICON.tl}</svg><span><small>77000123526</small><b>TradeLive Portfolio</b></span></span><span style="text-align:right"><small>Total Value</small><b>GHS ${money(tl)}</b></span></button>
     <div class="row"><span>Total shares</span><b>${totalShares().toLocaleString()}</b></div>
     ${S.open.tl ? held().map((x) => `<button class="row stock-row" data-a="stock" data-k="${x.s}"><span class="tick">${stockLogo(x.s)}${x.s}</span><span class="mute" style="font-size:20px">${money(x.sh * x.p)}</span></button>`).join("") +
       `<div class="row"><span>Available cash balance</span><span>${money(CASH["TradeLive Portfolio"])}</span></div>` : ""}
   </div>
   <div class="card">
     <button class="acc" data-a="open" data-k="lf"><span class="portfolio-title"><svg class="portfolio-mark" viewBox="0 0 24 24" aria-hidden="true">${ICON.lf}</svg><b>IC Liquidity Fund</b></span><span style="text-align:right"><small>Total Value</small><b>GHS ${money(lf)}</b></span></button>
-    ${S.open.lf ? `<div class="pad"><div class="row" style="padding:0 0 14px"><span class="fund-details"><svg class="fund-mark" viewBox="0 0 24 24" aria-hidden="true">${ICON.lf}</svg><span><small class="mute">DEMO-FUND</small><br><b style="font-size:20px">IC Liquidity Fund</b></span></span><span class="mute" style="font-size:20px">${money(lf)}</span></div>
+    ${S.open.lf ? `<div class="pad"><div class="row" style="padding:0 0 14px"><span class="fund-details"><svg class="fund-mark" viewBox="0 0 24 24" aria-hidden="true">${ICON.lf}</svg><span><small class="mute">22000381841</small><br><b style="font-size:20px">IC Liquidity Fund</b></span></span><span class="mute" style="font-size:20px">${money(lf)}</span></div>
     <button class="btn ghost full" data-a="info" data-t="Set a goal" data-m="Goal setting is not built yet.">Add New Goal +</button></div>` : ""}
   </div>`;
 };
